@@ -1,0 +1,43 @@
+server:
+  servlet:
+   context-path: /pedido
+   
+   
+spring:
+
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:guest}
+    password: ${RABBIT_PASSWORD:guest}
+
+  cassandra:
+    schema-action: CREATE_IF_NOT_EXISTS
+    local-datacenter: datacenter1
+    keyspace-name: spring_cassandra
+    request:
+      timeout: 10s
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
+
+
+  jackson:
+    serialization.FAIL_ON_EMPTY_BEANS: false # Não falhar na serialização de objetos sem propriedades
+
+    serialization:
+      indent-output: true
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito:
+            clientId: clientId
+            clientSecret: clientSecret
+            scope: openid
+            redirect-uri: http://localhost:8080/login/oauth2/code/cognito
+            clientName: clientName
+        provider:
+          cognito:
+            issuerUri: https://cognito-idp.{region}.amazonaws.com/{poolId}
+            user-name-attribute: cognito:username
