@@ -65,7 +65,43 @@
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-amqp</artifactId>
     	</dependency>
-				
+		<dependency>
+		    <groupId>io.rest-assured</groupId>
+		    <artifactId>rest-assured</artifactId>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		   <groupId>io.rest-assured</groupId>
+		   <artifactId>rest-assured-all</artifactId>
+		   <scope>test</scope>
+		</dependency>
+		<dependency>
+	      <groupId>io.rest-assured</groupId>
+	      <artifactId>spring-mock-mvc</artifactId>
+	      <scope>test</scope>
+		</dependency>
+	  <!-- Testcontainers -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>			
+		<dependency>
+    		<groupId>org.testcontainers</groupId>
+    		<artifactId>rabbitmq</artifactId>
+	    <scope>test</scope>
+		</dependency>
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -73,25 +109,17 @@
 		</dependency>
 		
 		
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<dependency>
     		<groupId>org.mockito</groupId>
     		<artifactId>mockito-core</artifactId>
     		<scope>test</scope>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/junit/junit -->
+
 		<dependency>
-		    <groupId>junit</groupId>
-    		<artifactId>junit</artifactId>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter-engine</artifactId>
     		<scope>test</scope>
 		</dependency>
-		<dependency>
-    		<groupId>io.cucumber</groupId>
-    		<artifactId>cucumber-java</artifactId>
-    		<version>7.17.0</version>
-    		<scope>test</scope>	
-		</dependency>
-
 		<dependency>
     		<groupId>org.junit.jupiter</groupId>
     		<artifactId>junit-jupiter-api</artifactId>
@@ -101,6 +129,19 @@
     		<groupId>org.junit.platform</groupId>
 	    	<artifactId>junit-platform-suite-api</artifactId>
     		<scope>test</scope>
+		</dependency>
+	<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-java</artifactId>
+		    <version>7.17.0</version>
+            <scope>test</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.assertj</groupId>
+		    <artifactId>assertj-core</artifactId>
+		    <scope>test</scope>
 		</dependency>
 
 	</dependencies>

@@ -21,6 +21,9 @@ public class RabbitMQConfig {
 	private static final String PEDIDO_QUEUE_1 = "pedido-queue";
 	private static final String PRODUCAO_QUEUE_1 = "producao-queue";
 
+	private static final String PAGAMENTO_DLQ = "pagamento-queue-dlq";
+	private static final String PEDIDO_DLQ = "pedido-queue-dlq";
+
     @Bean
     Jackson2JsonMessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();

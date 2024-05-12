@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,11 +42,16 @@ public class PedidoController {
 		return pedidoUseCases.buscaPedidos().stream().map(mapper::paraResponse).toList();
 	}
 	
+	@PostMapping
+	public PedidoResponse criaPedidos(@RequestBody Pedido pedido) {
+		return mapper.paraResponse(pedidoUseCases.criaPedido(pedido));
+	}
 
 	@GetMapping("proximo")
 	public ResponseEntity<PedidoResponse> buscaPoximoPedido() {
 			return new ResponseEntity<>(mapper.paraResponse(pedidoUseCases.buscaProximoPedido()), HttpStatus.OK);	
 	}
+	
 	@GetMapping("{id}")
 	public ResponseEntity<PedidoResponse> buscaPedidosPorId(@PathVariable("id") int id) {
 		try {
