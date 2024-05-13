@@ -11,7 +11,7 @@ public class StatusPagamentoTest {
     @Test
     public void testEnumValues() {
         assertEquals("Pago", StatusPagamento.Pago.name());
-        assertEquals("EsperandoConfirmação", StatusPagamento.PENDENTE.name());
+        assertEquals("PENDENTE", StatusPagamento.PENDENTE.name());
         assertEquals("Cancelado", StatusPagamento.Cancelado.name());
     }
 
@@ -25,7 +25,7 @@ public class StatusPagamentoTest {
     @Test
     public void testEnumToString() {
         assertEquals("Pago", StatusPagamento.Pago.toString());
-        assertEquals("EsperandoConfirmação", StatusPagamento.PENDENTE.toString());
+        assertEquals("PENDENTE", StatusPagamento.PENDENTE.toString());
         assertEquals("Cancelado", StatusPagamento.Cancelado.toString());
     }
 }

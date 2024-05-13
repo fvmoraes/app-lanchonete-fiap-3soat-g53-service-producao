@@ -23,7 +23,6 @@ public class PedidoEntityMapperTest {
     @Test
     public void testParaPedidoEntity() throws JsonProcessingException {
         Pedido pedido = mock(Pedido.class);
-        ObjectMapper objectMapper = new ObjectMapper();
         List<Produto> produtos = new ArrayList<>();
         when(pedido.getId()).thenReturn(1);
         when(pedido.getListaProdutos()).thenReturn(produtos);

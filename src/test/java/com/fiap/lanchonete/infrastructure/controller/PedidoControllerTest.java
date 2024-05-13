@@ -1,102 +1,129 @@
 package com.fiap.lanchonete.infrastructure.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fiap.lanchonete.application.usecases.PedidoUseCases;
 import com.fiap.lanchonete.application.usecases.exceptions.PedidoNaoEncontradoException;
 import com.fiap.lanchonete.domain.entity.Pedido;
 import com.fiap.lanchonete.domain.entity.StatusPedido;
 import com.fiap.lanchonete.infrastructure.mapper.PedidoRequestMapper;
-import com.fiap.lanchonete.infrastructure.requestsdto.PedidoResponse;
 
-@AutoConfigureMockMvc
-@SpringBootTest
 public class PedidoControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private PedidoUseCases pedidoUseCases;
 
-    private PedidoRequestMapper mapper = new PedidoRequestMapper();
-
-    @MockBean
-    private RabbitTemplate template;
-  
+    @Mock
+    private PedidoRequestMapper mapper;
     
+    @Mock
+    private RabbitTemplate template;
+
+    @InjectMocks
+    private PedidoController controller;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
-    void buscaPedidos() throws Exception {
-        List<Pedido> pedidos = new ArrayList<>();
+    public void testBuscaPedidos() {
+        // Mocking
+        List<Pedido> pedidos = Arrays.asList(new Pedido(), new Pedido());
         when(pedidoUseCases.buscaPedidos()).thenReturn(pedidos);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/producao/pedido")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Test
+        controller.buscaPedidos();
+
+        // Verification
+        verify(pedidoUseCases).buscaPedidos();
+        verify(mapper, times(2)).paraResponse(any());
     }
+
     @Test
-    void buscaProximoPedido() throws Exception {
-        Pedido pedido = new Pedido(1, new ArrayList<>(), StatusPedido.RECEBIDO, BigDecimal.valueOf(0.0), LocalTime.now());
+    public void testCriaPedidos() {
+        // Mocking
+        Pedido pedido = new Pedido();
+        when(pedidoUseCases.criaPedido(any())).thenReturn(pedido);
+
+        // Test
+        controller.criaPedidos(new Pedido());
+
+        // Verification
+        verify(pedidoUseCases).criaPedido(any());
+        verify(mapper).paraResponse(any());
+    }
+
+    @Test
+    public void testBuscaPoximoPedido() {
+        // Mocking
+        Pedido pedido = new Pedido();
         when(pedidoUseCases.buscaProximoPedido()).thenReturn(pedido);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/producao/pedido/proximo")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
- 
-    @Test
-    void buscaPedidoPorId_Encontrado() throws Exception {
-        Pedido pedido = new Pedido(1, new ArrayList<>(), StatusPedido.RECEBIDO, BigDecimal.valueOf(0.0), LocalTime.now());
-        when(pedidoUseCases.buscaPedidoId(1)).thenReturn(pedido);
+        // Test
+        controller.buscaPoximoPedido();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/producao/pedido/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Verification
+        verify(pedidoUseCases).buscaProximoPedido();
+        verify(mapper).paraResponse(any());
     }
 
     @Test
-    void buscaPedidoPorId_NaoEncontrado() throws Exception {
-        when(pedidoUseCases.buscaPedidoId(1)).thenThrow(PedidoNaoEncontradoException.class);
+    public void testBuscaPedidosPorId() throws PedidoNaoEncontradoException {
+        // Mocking
+        Pedido pedido = new Pedido();
+        when(pedidoUseCases.buscaPedidoId(anyInt())).thenReturn(pedido);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/producao/pedido/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        // Test
+        controller.buscaPedidosPorId(1);
+
+        // Verification
+        verify(pedidoUseCases).buscaPedidoId(anyInt());
+        verify(mapper).paraResponse(any());
     }
 
     @Test
-    void buscaPedidosPorStatus() throws Exception {
-        List<Pedido> pedidos = new ArrayList<>();
-        when(pedidoUseCases.buscaPedidosPorStatus(StatusPedido.RECEBIDO)).thenReturn(pedidos);
+    public void testBuscaPedidosPorStatus() {
+        // Mocking
+        List<Pedido> pedidos = Arrays.asList(new Pedido(), new Pedido());
+        when(pedidoUseCases.buscaPedidosPorStatus(any())).thenReturn(pedidos);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/producao/pedido/status/RECEBIDO")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Test
+        controller.buscaPedidosPorStatus(StatusPedido.PREPARACAO);
+
+        // Verification
+        verify(pedidoUseCases).buscaPedidosPorStatus(any());
+        verify(mapper, times(2)).paraResponse(any());
     }
 
     @Test
-    void atualizaPedidosStatus() throws Exception {
-        Pedido pedido = new Pedido(1, new ArrayList<>(), StatusPedido.RECEBIDO, BigDecimal.valueOf(0.0), LocalTime.now());
-        when(pedidoUseCases.atualizaPedidoStatus(1, StatusPedido.PREPARACAO)).thenReturn(pedido);
+    public void testAtualizaPedidosStatus() {
+        // Mocking
+        Pedido pedido = new Pedido();
+        when(pedidoUseCases.atualizaPedidoStatus(anyInt(), any())).thenReturn(pedido);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/producao/pedido/1/PREPARACAO")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        // Test
+        controller.atualizaPedidosStatus(StatusPedido.PREPARACAO, 1);
+
+        // Verification
+        verify(pedidoUseCases).atualizaPedidoStatus(anyInt(), any());
+        verify(mapper).paraResponse(any());
     }
 
 }

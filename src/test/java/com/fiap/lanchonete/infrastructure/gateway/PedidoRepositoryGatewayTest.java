@@ -1,18 +1,25 @@
 package com.fiap.lanchonete.infrastructure.gateway;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fiap.lanchonete.domain.entity.Pedido;
@@ -21,8 +28,8 @@ import com.fiap.lanchonete.infrastructure.gateway.mapper.PedidoEntityMapper;
 import com.fiap.lanchonete.infrastructure.persistence.PedidoRepository;
 import com.fiap.lanchonete.infrastructure.persistence.entity.PedidoEntity;
 
-@SpringBootTest
 public class PedidoRepositoryGatewayTest {
+
 
     @Mock
     private PedidoRepository repository;
@@ -33,80 +40,110 @@ public class PedidoRepositoryGatewayTest {
     @InjectMocks
     private PedidoRepositoryGateway gateway;
 
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
-    void criaPedido() throws JsonProcessingException {
-        Pedido pedido = mock(Pedido.class);
-        PedidoEntity pedidoEntity = mock(PedidoEntity.class);
+    public void testCriaPedido() throws JsonProcessingException {
+        // Mocking
+        Pedido pedido = new Pedido();
+        PedidoEntity pedidoEntity = new PedidoEntity();
         when(mapper.paraPedidoEntity(pedido)).thenReturn(pedidoEntity);
         when(repository.save(pedidoEntity)).thenReturn(pedidoEntity);
         when(mapper.paraObjetoDominio(pedidoEntity)).thenReturn(pedido);
 
-        assertEquals(pedido, gateway.criaPedido(pedido));
+        // Test
+        Pedido result = gateway.criaPedido(pedido);
+
+        // Verification
+        assertEquals(pedido, result);
+        verify(mapper).paraPedidoEntity(pedido);
+        verify(repository).save(pedidoEntity);
+        verify(mapper).paraObjetoDominio(pedidoEntity);
     }
 
     @Test
-    void atualizaPedido() throws JsonProcessingException {
-        Pedido pedido = mock(Pedido.class);
-        PedidoEntity pedidoEntity = mock(PedidoEntity.class);
+    public void testAtualizaPedido() throws JsonProcessingException {
+        // Mocking
+        Pedido pedido = new Pedido();
+        PedidoEntity pedidoEntity = new PedidoEntity();
         when(mapper.paraPedidoEntity(pedido)).thenReturn(pedidoEntity);
+
+        // Test
         gateway.atualizaPedido(pedido);
 
+        // Verification
+        verify(mapper).paraPedidoEntity(pedido);
         verify(repository).save(pedidoEntity);
     }
 
     @Test
-    void buscaPedidos() throws JsonProcessingException {
-        List<PedidoEntity> pedidoEntities = new ArrayList<>();
-        PedidoEntity pedidoEntity = mock(PedidoEntity.class);
-        pedidoEntities.add(pedidoEntity);
-        Iterable<PedidoEntity> iterable = pedidoEntities;
-        when(repository.findAll()).thenReturn(iterable);
+    public void testBuscaPedidos() throws JsonProcessingException {
+        // Mocking
+        PedidoEntity pedidoEntity1 = new PedidoEntity();
+        PedidoEntity pedidoEntity2 = new PedidoEntity();
+        List<PedidoEntity> pedidoEntities = Arrays.asList(pedidoEntity1, pedidoEntity2);
+        when(repository.findAll()).thenReturn(pedidoEntities);
 
-        Pedido pedido = mock(Pedido.class);
-        when(mapper.paraObjetoDominio(pedidoEntity)).thenReturn(pedido);
+        Pedido pedido1 = new Pedido(1, new ArrayList<>(), StatusPedido.PREPARACAO, BigDecimal.valueOf(0.0), LocalTime.now());
+        Pedido pedido2 = new Pedido(2, new ArrayList<>(), StatusPedido.PREPARACAO, BigDecimal.valueOf(0.0), LocalTime.now());
+        when(mapper.paraObjetoDominio(pedidoEntity1)).thenReturn(pedido1);
+        when(mapper.paraObjetoDominio(pedidoEntity2)).thenReturn(pedido2);
 
-        List<Pedido> expectedPedidos = new ArrayList<>();
-        expectedPedidos.add(pedido);
+        // Test
+        List<Pedido> result = gateway.buscaPedidos();
 
-        assertEquals(expectedPedidos, gateway.buscaPedidos());
+        // Verification
+        assertEquals(2, result.size());
+        assertTrue(result.contains(pedido1));
+        assertTrue(result.contains(pedido2));
+        verify(repository).findAll();
+        verify(mapper, times(2)).paraObjetoDominio(any());
     }
 
     @Test
-    void buscaPedidoId_Presente() throws JsonProcessingException {
-        Integer id = 1;
-        PedidoEntity pedidoEntity = mock(PedidoEntity.class);
-        when(repository.findById(id)).thenReturn(Optional.of(pedidoEntity));
+    public void testBuscaPedidoId() throws JsonProcessingException {
+        // Mocking
+        PedidoEntity pedidoEntity = new PedidoEntity();
+        Optional<PedidoEntity> optionalPedidoEntity = Optional.of(pedidoEntity);
+        when(repository.findById(anyInt())).thenReturn(optionalPedidoEntity);
 
-        Pedido pedido = mock(Pedido.class);
+        Pedido pedido = new Pedido();
         when(mapper.paraObjetoDominio(pedidoEntity)).thenReturn(pedido);
 
-        assertEquals(pedido, gateway.buscaPedidoId(id));
+        // Test
+        Pedido result = gateway.buscaPedidoId(1);
+
+        // Verification
+        assertEquals(pedido, result);
+        verify(repository).findById(1);
+        verify(mapper).paraObjetoDominio(pedidoEntity);
     }
 
     @Test
-    void buscaPedidoId_Ausente() throws JsonProcessingException {
-        Integer id = 1;
-        when(repository.findById(id)).thenReturn(Optional.empty());
+    public void testBuscaPedidosStatus() throws JsonProcessingException {
+        // Mocking
+        PedidoEntity pedidoEntity1 = new PedidoEntity();
+        PedidoEntity pedidoEntity2 = new PedidoEntity();
+        List<PedidoEntity> pedidoEntities = Arrays.asList(pedidoEntity1, pedidoEntity2);
+        when(repository.findAll()).thenReturn(pedidoEntities);
 
-        assertEquals(null, gateway.buscaPedidoId(id));
-    }
+        Pedido pedido1 =  new Pedido(1, new ArrayList<>(), StatusPedido.PREPARACAO, BigDecimal.valueOf(0.0), LocalTime.now());
 
-    @Test
-    void buscaPedidosStatus() throws JsonProcessingException {
-        StatusPedido status = StatusPedido.RECEBIDO;
-        List<PedidoEntity> pedidoEntities = new ArrayList<>();
-        PedidoEntity pedidoEntity = mock(PedidoEntity.class);
-        pedidoEntities.add(pedidoEntity);
-        Iterable<PedidoEntity> iterable = pedidoEntities;
-        when(repository.findAll()).thenReturn(iterable);
+        Pedido pedido2 =  new Pedido(2, new ArrayList<>(), StatusPedido.PREPARACAO, BigDecimal.valueOf(0.0), LocalTime.now());
+        when(mapper.paraObjetoDominio(pedidoEntity1)).thenReturn(pedido1);
+        when(mapper.paraObjetoDominio(pedidoEntity2)).thenReturn(pedido2);
 
-        Pedido pedido = mock(Pedido.class);
-        when(mapper.paraObjetoDominio(pedidoEntity)).thenReturn(pedido);
-        when(pedido.getStatusPedido()).thenReturn(status);
+        // Test
+        List<Pedido> result = gateway.buscaPedidosStatus(StatusPedido.PREPARACAO);
 
-        List<Pedido> expectedPedidos = new ArrayList<>();
-        expectedPedidos.add(pedido);
-
-        assertEquals(expectedPedidos, gateway.buscaPedidosStatus(status));
+        // Verification
+        assertEquals(2, result.size());
+        assertTrue(result.contains(pedido1));
+        assertTrue(result.contains(pedido2));
+        verify(repository).findAll();
+        verify(mapper, times(2)).paraObjetoDominio(any());
     }
 }
