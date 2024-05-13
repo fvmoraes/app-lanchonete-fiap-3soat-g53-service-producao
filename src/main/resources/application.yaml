@@ -1,8 +1,3 @@
-server:
-  servlet:
-   context-path: /pedido
-   
-   
 spring:
 
   rabbitmq:
@@ -10,11 +5,12 @@ spring:
     port: ${RABBIT_PORT:5672}
     username: ${RABBIT_USERNAME:guest}
     password: ${RABBIT_PASSWORD:guest}
+    virtual-host: fcplheqi
 
   cassandra:
     schema-action: CREATE_IF_NOT_EXISTS
-    local-datacenter: datacenter1
-    keyspace-name: spring_cassandra
+    local-datacenter: ${DATACENTER:datacenter1}
+    keyspace-name: ${KEYSPACE:spring_cassandra}
     request:
       timeout: 10s
     connection:
@@ -27,17 +23,3 @@ spring:
 
     serialization:
       indent-output: true
-  security:
-    oauth2:
-      client:
-        registration:
-          cognito:
-            clientId: clientId
-            clientSecret: clientSecret
-            scope: openid
-            redirect-uri: http://localhost:8080/login/oauth2/code/cognito
-            clientName: clientName
-        provider:
-          cognito:
-            issuerUri: https://cognito-idp.{region}.amazonaws.com/{poolId}
-            user-name-attribute: cognito:username
