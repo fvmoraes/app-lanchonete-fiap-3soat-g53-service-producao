@@ -8,9 +8,16 @@
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.fiap.lanchonete</groupId>
-  <artifactId>producao</artifactId>
+  <artifactId>service-producao</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+  <name>Serviço de Producao</name>
+  <description>Responsavel por ter receber e atualizar os status dos pedidos</description>
+
+	<properties>
+	<sonar.organization>fvmoraes</sonar.organization>
+	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	</properties>
+
 <dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
