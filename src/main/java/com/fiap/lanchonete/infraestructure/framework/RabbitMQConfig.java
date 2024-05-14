@@ -21,7 +21,6 @@ public class RabbitMQConfig {
 	private static final String PEDIDO_QUEUE_1 = "pedido-queue";
 	private static final String PRODUCAO_QUEUE_1 = "producao-queue";
 
-	private static final String PAGAMENTO_DLQ = "pagamento-queue-dlq";
 	private static final String PEDIDO_DLQ = "pedido-queue-dlq";
 
     @Bean
@@ -45,11 +44,16 @@ public class RabbitMQConfig {
 	}
 
 	@Bean
-	Queue pagamentoQueue() {
-		return QueueBuilder
-			.nonDurable(PEDIDO_QUEUE_1)
-			.build();
+	Queue pedidoQueue() {
+		return QueueBuilder.nonDurable(PEDIDO_QUEUE_1).withArgument("x-dead-letter-exchange", "")
+				.withArgument("x-dead-letter-routing-key", PEDIDO_DLQ).build();
 	}
+
+	@Bean
+	Queue pedidoDLQ() {
+		return QueueBuilder.nonDurable(PEDIDO_DLQ).build();
+	}
+
 	@Bean
 	Queue producaoQueue() {
 		return QueueBuilder
@@ -57,9 +61,9 @@ public class RabbitMQConfig {
 			.build();
 	}
 	@Bean
-	Binding pedidoBinding(Queue pagamentoQueue, DirectExchange pedidoExchange) {
+	Binding pedidoBinding(Queue pedidoQueue, DirectExchange pedidoExchange) {
 		return BindingBuilder
-			.bind(pagamentoQueue)
+			.bind(pedidoQueue)
 			.to(pedidoExchange)
 			.with(PRODUCAO_PEDIDO_ROUTING_KEY);
 	}

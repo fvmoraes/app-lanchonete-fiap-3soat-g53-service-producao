@@ -20,6 +20,9 @@ import com.fiap.lanchonete.domain.entity.event.PedidoAtualizadoEvent;
 import com.fiap.lanchonete.infrastructure.mapper.PedidoRequestMapper;
 import com.fiap.lanchonete.infrastructure.requestsdto.PedidoResponse;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("api/v1/producao/pedido")
 public class PedidoController {
@@ -38,21 +41,26 @@ public class PedidoController {
 	}
 
 	@GetMapping
+	@Operation(description = "Busca Pedidos")
 	public List<PedidoResponse> buscaPedidos() {
 		return pedidoUseCases.buscaPedidos().stream().map(mapper::paraResponse).toList();
 	}
 	
 	@PostMapping
+	@Hidden
+	@Operation(description = "Cria um Pedido, usado apenas para testes")
 	public PedidoResponse criaPedidos(@RequestBody Pedido pedido) {
 		return mapper.paraResponse(pedidoUseCases.criaPedido(pedido));
 	}
 
 	@GetMapping("proximo")
+	@Operation(description = "Busca próximo pedido a ser feito")
 	public ResponseEntity<PedidoResponse> buscaPoximoPedido() {
 			return new ResponseEntity<>(mapper.paraResponse(pedidoUseCases.buscaProximoPedido()), HttpStatus.OK);	
 	}
 	
 	@GetMapping("{id}")
+	@Operation(description = "Busca pedido por ID")
 	public ResponseEntity<PedidoResponse> buscaPedidosPorId(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<>(mapper.paraResponse(pedidoUseCases.buscaPedidoId(id)), HttpStatus.OK);
@@ -62,11 +70,13 @@ public class PedidoController {
 	};
 
 	@GetMapping("/status/{status}")
+	@Operation(description = "Busca pedido Status")
 	public List<PedidoResponse> buscaPedidosPorStatus(@PathVariable StatusPedido status) {
 		return pedidoUseCases.buscaPedidosPorStatus(status).stream().map(mapper::paraResponse).toList();
 	};
 
 	@PostMapping("{id}/{status}")
+	@Operation(description = "Atualiza o Pedido do ID pelo Status fornecido")
 	public PedidoResponse atualizaPedidosStatus(@PathVariable("status") StatusPedido status, @PathVariable("id") int id) {
 		 Pedido pedido = pedidoUseCases.atualizaPedidoStatus(id,status);
 		 PedidoAtualizadoEvent event = new PedidoAtualizadoEvent(id,status);

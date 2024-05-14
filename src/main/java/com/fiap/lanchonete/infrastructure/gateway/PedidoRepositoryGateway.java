@@ -46,7 +46,7 @@ public class PedidoRepositoryGateway implements PedidoGateway {
 	public List<Pedido> buscaPedidos() {
 		 Iterable<PedidoEntity> pedidos = repository.findAll();
 		    
-		    List<Pedido> listaPedidos = new ArrayList();
+		    List<Pedido> listaPedidos = new ArrayList<Pedido>();
 		    for (PedidoEntity pedidoEntity : pedidos) {
 		        try {
 		            Pedido pedido = mapper.paraObjetoDominio(pedidoEntity);
@@ -76,7 +76,7 @@ public class PedidoRepositoryGateway implements PedidoGateway {
 	public List<Pedido> buscaPedidosStatus(StatusPedido status) {
 		 Iterable<PedidoEntity> pedidos = repository.findAll();
 		    
-		    List<Pedido> listaPedidos = new ArrayList();
+		    List<Pedido> listaPedidos = new ArrayList<Pedido>();
 		    for (PedidoEntity pedidoEntity : pedidos) {
 		        try {
 		            Pedido pedido = mapper.paraObjetoDominio(pedidoEntity);
