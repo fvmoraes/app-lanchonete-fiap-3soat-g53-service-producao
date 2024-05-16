@@ -1,10 +1,8 @@
-package producaocom.fiap.lanchonete.domain.entity;
+package com.fiap.lanchonete.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import com.fiap.lanchonete.domain.entity.Categoria;
 
 public class CategoriaTest {
 

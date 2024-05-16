@@ -1,31 +1,30 @@
-package producaocom.fiap.lanchonete.domain.entity;
+package com.fiap.lanchonete.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.fiap.lanchonete.domain.entity.StatusPagamento;
 
 public class StatusPagamentoTest {
 
     @Test
     public void testEnumValues() {
-        assertEquals("Pago", StatusPagamento.Pago.name());
+        assertEquals("Pago", StatusPagamento.PAGO.name());
         assertEquals("PENDENTE", StatusPagamento.PENDENTE.name());
-        assertEquals("Cancelado", StatusPagamento.Cancelado.name());
+        assertEquals("Cancelado", StatusPagamento.CANCELADO.name());
     }
 
     @Test
     public void testEnumOrdinal() {
-        assertEquals(0, StatusPagamento.Pago.ordinal());
+        assertEquals(0, StatusPagamento.PAGO.ordinal());
         assertEquals(1, StatusPagamento.PENDENTE.ordinal());
-        assertEquals(2, StatusPagamento.Cancelado.ordinal());
+        assertEquals(2, StatusPagamento.CANCELADO.ordinal());
     }
 
     @Test
     public void testEnumToString() {
-        assertEquals("Pago", StatusPagamento.Pago.toString());
+        assertEquals("Pago", StatusPagamento.PAGO.toString());
         assertEquals("PENDENTE", StatusPagamento.PENDENTE.toString());
-        assertEquals("Cancelado", StatusPagamento.Cancelado.toString());
+        assertEquals("Cancelado", StatusPagamento.CANCELADO.toString());
     }
 }

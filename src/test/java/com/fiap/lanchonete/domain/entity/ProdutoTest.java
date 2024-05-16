@@ -1,13 +1,10 @@
-package producaocom.fiap.lanchonete.domain.entity;
+package com.fiap.lanchonete.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
-
-import com.fiap.lanchonete.domain.entity.Categoria;
-import com.fiap.lanchonete.domain.entity.Produto;
 
 public class ProdutoTest {
 	@Test

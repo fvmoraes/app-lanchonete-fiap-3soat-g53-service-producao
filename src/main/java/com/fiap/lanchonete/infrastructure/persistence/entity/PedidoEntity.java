@@ -25,7 +25,7 @@ public class PedidoEntity {
     private String listaProdutosPedido;
 	 
 	@NotNull
-	private  StatusPedido statusPedido;
+	private StatusPedido statusPedido;
 	
 	private BigDecimal valorTotal;
 	

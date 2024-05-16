@@ -1,4 +1,4 @@
-package producaocom.fiap.lanchonete.domain.entity;
+package com.fiap.lanchonete.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import com.fiap.lanchonete.domain.entity.Pedido;
-import com.fiap.lanchonete.domain.entity.Produto;
-import com.fiap.lanchonete.domain.entity.StatusPedido;
 
 public class PedidoTest {
 
