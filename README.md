@@ -30,6 +30,7 @@ Como o Cassandra é um banco de dados NoSQL orientado a colunas e não segue o m
 Esté é apenas um esboço conceitual do esquema de colunas para a tabela pedido com base no modelo de dados:
 
 Tabela: pedido
+
 +-------------------+-------------------+-------------------+-------------------+---------------------+
 
 |-id-(primary key)--|-lista_produtos-----|-status_pedido-----|-valor_total------|-data_criacao--------|
