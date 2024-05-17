@@ -30,12 +30,17 @@ Como o Cassandra é um banco de dados NoSQL orientado a colunas e não segue o m
 Esté é apenas um esboço conceitual do esquema de colunas para a tabela pedido com base no modelo de dados:
 
 Tabela: pedido
+
 +-------------------+-------------------+-------------------+-------------------+---------------------+
-| id (primary key)  | lista_produtos    | status_pedido     | valor_total       | data_criacao        |
+
+|-id-(primary key)--|-lista_produtos-----|-status_pedido-----|-valor_total------|-data_criacao--------|
+
 +-------------------+-------------------+-------------------+-------------------+---------------------+
-| 1                 | "produto1, produto2, produto3" | "PENDENTE" | 30.00   | 2024-05-16 10:30:00 |
-| 2                 | "produto4, produto5"           | "CONCLUÍDO" | 20.00 | 2024-05-16 11:45:00 |
-| ...               | ...               | ...               | ...               | ...                 |
+
+|-1-----------------|-"produto1,-produto2,-produto3"-|-"PENDENTE"-|-30.00---|-2024-05-16 10:30:00-|
+
+|-2-----------------|-"produto4,-produto5"-----------|-"CONCLUÍDO"-|-20.00-|-2024-05-16 11:45:00--|
+
 +-------------------+-------------------+-------------------+-------------------+---------------------+
 
 Neste esquema conceitual:
