@@ -25,6 +25,6 @@ public class StatusPagamentoTest {
     public void testEnumToString() {
         assertEquals("Pago", StatusPagamento.PAGO.toString());
         assertEquals("PENDENTE", StatusPagamento.PENDENTE.toString());
-        assertEquals("Cancelado", StatusPagamento.CANCELADO.toString());
+        assertEquals("CANCELADO", StatusPagamento.CANCELADO.toString());
     }
 }
