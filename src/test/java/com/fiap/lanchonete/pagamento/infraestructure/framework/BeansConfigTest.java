@@ -20,7 +20,6 @@ import com.fiap.lanchonete.ApplicationPedido;
 @SpringBootTest(classes = ApplicationPedido.class)
 @Testcontainers
 class BeansConfigTest {
-	private static String KEYSPACE_NAME = "teste";
     @Autowired
     private ApplicationContext context;
 

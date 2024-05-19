@@ -9,9 +9,9 @@ public class StatusPagamentoTest {
 
     @Test
     public void testEnumValues() {
-        assertEquals("Pago", StatusPagamento.PAGO.name());
+        assertEquals("PAGO", StatusPagamento.PAGO.name());
         assertEquals("PENDENTE", StatusPagamento.PENDENTE.name());
-        assertEquals("Cancelado", StatusPagamento.CANCELADO.name());
+        assertEquals("CANCELADO", StatusPagamento.CANCELADO.name());
     }
 
     @Test
@@ -23,7 +23,7 @@ public class StatusPagamentoTest {
 
     @Test
     public void testEnumToString() {
-        assertEquals("Pago", StatusPagamento.PAGO.toString());
+        assertEquals("PAGO", StatusPagamento.PAGO.toString());
         assertEquals("PENDENTE", StatusPagamento.PENDENTE.toString());
         assertEquals("CANCELADO", StatusPagamento.CANCELADO.toString());
     }

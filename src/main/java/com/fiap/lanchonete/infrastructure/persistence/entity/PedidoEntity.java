@@ -4,13 +4,11 @@ package com.fiap.lanchonete.infrastructure.persistence.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.List;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.fiap.lanchonete.domain.entity.Produto;
 import com.fiap.lanchonete.domain.entity.StatusPedido;
 
 import jakarta.validation.constraints.NotNull;
