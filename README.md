@@ -60,7 +60,7 @@ Este esboço é uma representação simplificada do modelo de dados em um banco 
 
 
 ### Message Broker
-> Utilizamos o rabbitMQ, via CloudAMQP para troca de mensagens entre os micosserviços:
+> Utilizamos o rabbitMQ, via CloudAMQP para troca de mensagens entre os microsserviços:
 
 ![](/img/rabbitmq.png)
 
