@@ -53,6 +53,17 @@ Neste esquema conceitual:
 
 Este esboço é uma representação simplificada do modelo de dados em um banco de dados NoSQL orientado a colunas como o Cassandra.
 
+### Inspeçao de código:
+> Efetuamos a inspeçao de código com o SonarCloud, mantendo a cobertura minima de testes em 80%:
+
+![](/img/sonarcloud.png)
+
+
+### Message Broker
+> Utilizamos o rabbitMQ, via CloudAMQP para troca de mensagens entre os micosserviços:
+
+![](/img/rabbitmq.png)
+
 ## Como Usar
 ### O que preciso ter instalado no meu computador?
 > Qualquer sistema operacional Linux ou subsistema Linux, Windows ou MacOs
@@ -75,19 +86,13 @@ docker-compose up
 
 ---
 ## Mais informações sobre a API
-### Lista de endpoints
-
-GET http://localhost:8080/api/v1/producao/pedido
-
-POST http://localhost:8080/api/v1/producao/pedido
-
-POST http://localhost:8080/api/v1/producao/pedido/{id}/{status}
-
-GET http://localhost:8080/api/v1/producao/pedido/{id}
-
-GET http://localhost:8080/api/v1/producao/pedido/status/{status}
-
-GET http://localhost:8080/api/v1/producao/pedido/proximo
+> Lista de endpoints
+- GET http://localhost:8080/api/v1/producao/pedido
+- POST http://localhost:8080/api/v1/producao/pedido
+- POST http://localhost:8080/api/v1/producao/pedido/{id}/{status}
+- GET http://localhost:8080/api/v1/producao/pedido/{id}
+- GET http://localhost:8080/api/v1/producao/pedido/status/{status}
+- GET http://localhost:8080/api/v1/producao/pedido/proximo
 
 > Swagger
 - GET http://localhost:8080/swagger-ui/index.html
